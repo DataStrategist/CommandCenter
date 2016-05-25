@@ -1,0 +1,204 @@
+
+R version 3.2.2 (2015-08-14) -- "Fire Safety"
+Copyright (C) 2015 The R Foundation for Statistical Computing
+Platform: x86_64-w64-mingw32/x64 (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+[Previously saved workspace restored]
+
+> 
+> ## Read all the output files of all automated procedures and display whether they failed
+> ## or not
+> library(syuzhet)
+> library(dplyr)
+
+Attaching package: 'dplyr'
+
+The following objects are masked from 'package:stats':
+
+    filter, lag
+
+The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union
+
+Warning message:
+package 'dplyr' was built under R version 3.2.4 
+> library(googleVis)
+
+Welcome to googleVis version 0.5.8
+
+Please read the Google API Terms of Use
+before you start using the package:
+https://developers.google.com/terms/
+
+Note, the plot method of googleVis will by default use
+the standard browser to display its output.
+
+See the googleVis package vignettes for more details,
+or visit http://github.com/mages/googleVis.
+
+To suppress this message use:
+suppressPackageStartupMessages(library(googleVis))
+
+> 
+> ## Set wd
+> setwd("D:/Dropbox/My projects/Command Center")
+> 
+> df <- data.frame(thing="",lastRun="",SomethinWrong="",runLink="",status="",stringsAsFactors = F)
+> # df$lastRun <- as.difftime(df$lastRun)
+> i=0
+> 
+> ##--- TreeMap Maker ----
+> # Name,Result file,bat file:
+> DisplayName <- "db Treemap maker"
+> BF   <- "D:/Dropbox/My projects/AV - ALL db overviews/dbTREE.bat"
+> RF   <- "D:/Dropbox/My projects/AV - ALL db overviews/db matrix getter3.R"
+> 
+> i=i+1
+> 
+> df[i,"thing"]   <- DisplayName
+> a <- file.info(RF)
+> df[i,"lastRun"] <- as.character(Sys.Date()- as.Date(a$mtime))
+> df[i,"runLink"] <- paste('<a href ="',BF,'" download>link</a>',sep="")
+> df[i,"SomethinWrong"] <- paste('<a href ="',RF,'"title="DONT click this link... rightClick +copyLink and open from R" >link</a>',sep="")
+> er <- paste("Errlines:",
++             grep("ERROR|Error", 
++                  get_sentences(gsub("\\+",".",get_text_as_string(paste(RF,"out",sep="")))) ,value=TRUE),sep="</br>")
+> er <-gsub("\\.","&#10",er)
+> if (paste(er,collapse="") == "Errlines:</br>") {
++   df[i,"status"] <- '<img border=0 src="green.gif">'
++ } else {
++   df[i,"status"] <- paste('<img border=0 src="red.gif" title="',er,'" >',collapse="")
++ }
+> ##-----------------------
+> 
+> ##--- AgroHorizon LEAP ----
+> # Name,Result file,bat file:
+> DisplayName <- "AgroHorizon.LEAP"
+> RF   <- "D:/Dropbox/My projects/AV - LEAP dashboard/Agro Horizon/Agro Horizon.R"
+> BF   <- "D:/Dropbox/My projects/AV - LEAP dashboard/Agro Horizon/AgroHorizon.LEAP.bat"
+> 
+> i=i+1
+> 
+> df[i,"thing"]   <- DisplayName
+> a <- file.info(RF)
+> df[i,"lastRun"] <- as.character(Sys.Date()- as.Date(a$mtime))
+> df[i,"runLink"] <- paste('<a href ="',BF,'" download>link</a>',sep="")
+> df[i,"SomethinWrong"] <- paste('<a href ="',RF,'"title="DONT click this link... rightClick +copyLink and open from R" >link</a>',sep="")
+> er <- paste("Errlines:",
++             grep("ERROR|Error", 
++                  get_sentences(gsub("\\+",".",get_text_as_string(paste(RF,"out",sep="")))) ,value=TRUE),sep="</br>")
+> er <-gsub("\\.","&#10",er)
+> if (paste(er,collapse="") == "Errlines:</br>") {
++   df[i,"status"] <- '<img border=0 src="green.gif">'
++ } else {
++   df[i,"status"] <- paste('<img border=0 src="red.gif" title="',er,'" >',collapse="")
++ }
+> ##-----------------------
+> 
+> ##--- RegalAG LEAP ----
+> # Name,Result file,bat file:
+> DisplayName <- "RegalAG.LEAP"
+> RF   <- "D:/Dropbox/My projects/AV - LEAP dashboard/Regal AG/RegalAG.R"
+> BF   <- "D:/Dropbox/My projects/AV - LEAP dashboard/Regal AG/RegalAG.LEAP.bat"
+> 
+> i=i+1
+> 
+> df[i,"thing"]   <- DisplayName
+> a <- file.info(RF)
+> df[i,"lastRun"] <- as.character(Sys.Date()- as.Date(a$mtime))
+> df[i,"runLink"] <- paste('<a href ="',BF,'" download>link</a>',sep="")
+> df[i,"SomethinWrong"] <- paste('<a href ="',RF,'"title="DONT click this link... rightClick +copyLink and open from R" >link</a>',sep="")
+> er <- paste("Errlines:",
++             grep("ERROR|Error", 
++                  get_sentences(gsub("\\+",".",get_text_as_string(paste(RF,"out",sep="")))) ,value=TRUE),sep="</br>")
+> er <-gsub("\\.","&#10",er)
+> if (paste(er,collapse="") == "Errlines:</br>") {
++   df[i,"status"] <- '<img border=0 src="green.gif">'
++ } else {
++   df[i,"status"] <- paste('<img border=0 src="red.gif" title="',er,'" >',collapse="")
++ }
+> ##-----------------------
+> 
+> ##--- Advance LEAP ----
+> # Name,Result file,bat file:
+> DisplayName <- "ADVANCE.LEAP"
+> RF   <- "D:/Dropbox/My projects/AV - LEAP dashboard/AdvanceII/Advance.R"
+> BF   <- "D:/Dropbox/My projects/AV - LEAP dashboard/AdvanceII/Advance.LEAP.bat"
+> 
+> i=i+1
+> 
+> df[i,"thing"]   <- DisplayName
+> a <- file.info(RF)
+> df[i,"lastRun"] <- as.character(Sys.Date()- as.Date(a$mtime))
+> df[i,"runLink"] <- paste('<a href ="',BF,'" download>link</a>',sep="")
+> df[i,"SomethinWrong"] <- paste('<a href ="',RF,'"title="DONT click this link... rightClick +copyLink and open from R" >link</a>',sep="")
+> er <- paste("Errlines:",
++             grep("ERROR|Error", 
++                  get_sentences(gsub("\\+",".",get_text_as_string(paste(RF,"out",sep="")))) ,value=TRUE),sep="</br>")
+> er <-gsub("\\.","&#10",er)
+> if (paste(er,collapse="") == "Errlines:</br>") {
++   df[i,"status"] <- '<img border=0 src="green.gif">'
++ } else {
++   df[i,"status"] <- paste('<img border=0 src="red.gif" title="',er,'" >',collapse="")
++ }
+> ##-----------------------
+> 
+> 
+> ##--- AMAL LEAP ----
+> # Name,Result file,bat file:
+> DisplayName <- "AMAL.LEAP"
+> RF   <- "D:/Dropbox/My projects/AV - LEAP dashboard/AMAL/AMAL.R"
+> BF   <- "D:/Dropbox/My projects/AV - LEAP dashboard/AMAL/AMAL.LEAP.bat"
+> 
+> i=i+1
+> 
+> df[i,"thing"]   <- DisplayName
+> a <- file.info(RF)
+> df[i,"lastRun"] <- as.character(Sys.Date()- as.Date(a$mtime))
+> df[i,"runLink"] <- paste('<a href ="',BF,'" download>link</a>',sep="")
+> df[i,"SomethinWrong"] <- paste('<a href ="',RF,'"title="DONT click this link... rightClick +copyLink and open from R" >link</a>',sep="")
+> er <- paste("Errlines:",
++             grep("ERROR|Error", 
++                  get_sentences(gsub("\\+",".",get_text_as_string(paste(RF,"out",sep="")))) ,value=TRUE),sep="</br>")
+> er <-gsub("\\.","&#10",er)
+> if (paste(er,collapse="") == "Errlines:</br>") {
++   df[i,"status"] <- '<img border=0 src="green.gif">'
++ } else {
++   df[i,"status"] <- paste('<img border=0 src="red.gif" title="',er,'" >',collapse="")
++ }
+> ##-----------------------
+> 
+> 
+> 
+> #### Plot table and produce output ####
+> ObsRep <- gvisTable(df)
+> # plot(ObsRep)
+> cat(paste('<html><head><title>Command Center 2000!!</title></head><body>',
++           '<h1>Command Center 2000!!</h1>',
++           '<h2>Report Date: ',Sys.Date(),'</h2>',sep=''),
++     ObsRep$html$header,
++     ObsRep$html$chart,
++     '<a href="CommandCenter.bat" download>Rerun Command center</a>',
++     '</body></html>',
++     file="CommandCenter.html")
+> browseURL("CommandCenter.html")
+> 
+> 
+> proc.time()
+   user  system elapsed 
+   2.85    0.20    1.89 
